@@ -1,0 +1,15 @@
+version: '2.1'
+
+services:
+  bigdatafed:
+    image: bigdatafed
+    build:
+      context: .
+      args:
+        exec: fetch_data.py
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
+    entrypoint: "sh"
+    command: "setup_server.sh"
