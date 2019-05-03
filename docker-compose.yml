@@ -1,8 +1,8 @@
 version: '2.1'
 
 services:
-  bigdatafed:
-    image: bigdatafed
+  investing.com_scraper:
+    image: investing.com_scraper
     build:
       context: .
       args:
