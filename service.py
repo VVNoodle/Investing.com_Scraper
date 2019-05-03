@@ -1,11 +1,9 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify, json
 from fetch_data import extract_data
 import pandas as pd
 import sys
 
 app = Flask(__name__)
-
-# http://127.0.0.1:8080/commodity?start_date=2017-05-10&end_date=2017-05-22&commodity_type=gold
 
 
 @app.route('/')
@@ -32,9 +30,12 @@ def commodity():
     commodity = commodity[pd.to_datetime(commodity['Date']).dt.date.astype(
         str) <= end_date] if start_date != None else commodity
 
-    print(commodity, file=sys.stderr)
-
-    return "{} {} {}".format(start_date, end_date, commodity_type)
+    commodity = commodity.set_index("Date")
+    time = json.loads(commodity.to_json())["Price"]
+    return jsonify(
+        time=time,
+        mean=commodity.mean()["Price"],
+        variance=commodity.var()["Price"])
 
 
 if __name__ == '__main__':

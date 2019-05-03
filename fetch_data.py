@@ -20,7 +20,7 @@ def table_to_df(rows):
         current_row = row.find_all("td")[:2]
         date_rows.append(datetime.strptime(
             current_row[0].get_text(), '%b %d, %Y').strftime('%Y-%m-%d'))
-        price_rows.append(current_row[1].get_text())
+        price_rows.append(current_row[1].get_text().replace(',', ''))
 
     df["Date"] = date_rows
     df["Price"] = price_rows
@@ -44,6 +44,7 @@ def extract_data(commodity):
     table_rows = get_rows(golden_page)
     rows = table_rows[1:]
     df = table_to_df(rows)
+    df["Price"] = df["Price"].astype(float)
     return df
 
 
