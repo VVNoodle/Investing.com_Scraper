@@ -27,7 +27,7 @@ def table_to_df(rows):
     return df
 
 
-def extract_data(mineral):
+def extract_data(commodity):
     # ping site to get HTML page. custom headers to prevent from being blocked.
     headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
@@ -39,16 +39,20 @@ def extract_data(mineral):
 
     golden_page = requests.get(
         "https://www.investing.com/commodities/{}-historical-data".format(
-            mineral),
+            commodity),
         headers=headers)
     table_rows = get_rows(golden_page)
     rows = table_rows[1:]
     df = table_to_df(rows)
-    df.to_csv("./{}.csv".format(mineral))
+    return df
 
 
 if __name__ == "__main__":
     print("Extracting data...")
-    extract_data("gold")
-    extract_data("silver")
+    gold = extract_data("gold")
+    silver = extract_data("silver")
+
+    gold.to_csv("./gold.csv")
+    silver.to_csv("./silver.csv")
+
     print("Finished extracting data...")
