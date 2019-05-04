@@ -11,5 +11,5 @@ services:
       - 8080:8080
     volumes:
       - ./:/app
-    entrypoint: "sh"
-    command: "setup_server.sh"
+    entrypoint: "bash"
+    command: "-c \"pip freeze > requirements.txt && python3 test.py && python3 fetch_data.py && python3 service.py\""
