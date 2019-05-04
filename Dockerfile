@@ -17,6 +17,6 @@ ADD . /app
 # Using pip:
 RUN python3 -m pip install -r requirements.txt
 RUN pip install --upgrade setuptools
-RUN pip install requests beautifulsoup4 pandas flask
+# RUN pip install requests beautifulsoup4 pandas flask
 
 CMD ["python3", "-m", "investing.com_scraper"]
